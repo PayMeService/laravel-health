@@ -12,7 +12,7 @@ use Spatie\Health\ResultStores\ResultStores;
 
 class Health
 {
-    protected ?string $serverKey;
+    protected ?string $serverKey = null;
 
     /** @var array<int, Check> */
     protected array $checks = [];
