@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-health` will be documented in this file.
 
+## 2.0.0 - 2025-11-12
+
+### What's Changed
+
+* Feature/laravel upgrade by @o-kima in https://github.com/PayMeService/laravel-health/pull/9
+
+### New Contributors
+
+* @o-kima made their first contribution in https://github.com/PayMeService/laravel-health/pull/9
+
+**Full Changelog**: https://github.com/PayMeService/laravel-health/compare/1.29.1...2.0.0
+
 ## 1.22.4 - 2023-03-21
 
 - do not send notification when table sizes are ok
