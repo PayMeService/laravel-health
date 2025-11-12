@@ -73,8 +73,6 @@ class Result
         $this->notificationMessage = $message;
         $this->status = Status::ok();
 
-        \PMLog::debug('[Result][ok] Ok');
-
         return $this;
     }
 
@@ -83,8 +81,6 @@ class Result
         $this->notificationMessage = $message;
         $this->status = Status::warning();
 
-        \PMLog::debug("[Result][warning] Warning: {$message}");
-
         return $this;
     }
 
@@ -92,8 +88,6 @@ class Result
     {
         $this->notificationMessage = $message;
         $this->status = Status::failed();
-
-        \PMLog::debug("[Result][failed] Failed: {$message}");
 
         return $this;
     }

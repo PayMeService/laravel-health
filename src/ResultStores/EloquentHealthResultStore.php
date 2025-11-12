@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Psr\Log\LoggerInterface;
 use Spatie\Health\Checks\Result;
 use Spatie\Health\Exceptions\CouldNotSaveResultsInStore;
 use Spatie\Health\Facades\Health;
@@ -16,6 +17,9 @@ use Spatie\Health\ResultStores\StoredCheckResults\StoredCheckResults;
 
 class EloquentHealthResultStore implements ResultStore
 {
+
+    public function __construct(private LoggerInterface $logger) { }
+
     public static function determineHistoryItemModel(): string
     {
         $defaultHistoryClass = HealthCheckResultHistoryItem::class;
@@ -68,7 +72,7 @@ class EloquentHealthResultStore implements ResultStore
         }
 
         $serverKey = Health::getServerKey();
-        \PMLog::debug("[EloquentHealthResultStore][latestResults] Going to get {$serverKey} latest result");
+        $this->logger->debug("[EloquentHealthResultStore][latestResults] Going to get {$serverKey} latest result");
 
         $latestChecksForServerKey = $modelInstance->newQuery()
             ->select(DB::raw('MAX(id) as max_id'), 'server_key')
@@ -99,7 +103,7 @@ class EloquentHealthResultStore implements ResultStore
                     meta: $historyItem->meta,
                 );
             });
-        \PMLog::debug("[EloquentHealthResultStore][latestResults] Got {$storedCheckResults->count()} rows");
+        $this->logger->debug("[EloquentHealthResultStore][latestResults] Got {$storedCheckResults->count()} rows");
 
         return new StoredCheckResults(
             finishedAt: $latestItem->created_at,
