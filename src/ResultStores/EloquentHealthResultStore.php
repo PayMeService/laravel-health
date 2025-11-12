@@ -17,8 +17,7 @@ use Spatie\Health\ResultStores\StoredCheckResults\StoredCheckResults;
 
 class EloquentHealthResultStore implements ResultStore
 {
-
-    public function __construct(private LoggerInterface $logger) { }
+    public function __construct(private LoggerInterface $logger) {}
 
     public static function determineHistoryItemModel(): string
     {
