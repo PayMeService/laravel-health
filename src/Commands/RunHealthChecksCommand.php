@@ -5,6 +5,7 @@ namespace Spatie\Health\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Psr\Log\LoggerInterface;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 use Spatie\Health\Enums\Status;
@@ -24,10 +25,10 @@ class RunHealthChecksCommand extends Command
     /** @var array<int, Exception> */
     protected array $thrownExceptions = [];
 
-    public function handle(): int
+    public function handle(LoggerInterface $logger): int
     {
         $this->info('Running checks...');
-        \PMLog::debug("[RunHealthChecksCommand][handle] Running checks...");
+        $logger->debug('[RunHealthChecksCommand][handle] Running checks...');
 
         $results = $this->runChecks();
 
@@ -41,7 +42,7 @@ class RunHealthChecksCommand extends Command
 
         $this->line('');
         $this->info('All done!');
-        \PMLog::debug("[RunHealthChecksCommand][handle] All done!");
+        $logger->debug('[RunHealthChecksCommand][handle] All done!');
 
         return $this->determineCommandResult($results);
     }
@@ -53,7 +54,7 @@ class RunHealthChecksCommand extends Command
         try {
             $this->line('');
             $this->line("Running check: {$check->getLabel()}...");
-            \PMLog::debug("[RunHealthChecksCommand][runCheck] Running check: {$check->getLabel()}...");
+            app(LoggerInterface::class)->debug("[RunHealthChecksCommand][runCheck] Running check: {$check->getLabel()}...");
 
             $result = $check->run();
         } catch (Exception $exception) {
